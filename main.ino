@@ -79,7 +79,7 @@ void setup() {
   int status = 99;
   while (status > 98 && status > 0) {
     MODEM.send("AT+CSQ");
-    MODEM.waitForResponse(2000);
+    MODEM.waitForResponse(2000, &response);
     String sub = response.substring(6, 8);
     status = sub.toInt(); // Will return 0 if no valid number is found
     delay(1000);
