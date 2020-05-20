@@ -64,24 +64,35 @@ void setup() {
   Serial.print("Applying changes and saving configuration...");
   MODEM.send("AT+CFUN=15");
   do {
-    delay(1000);
+    delay(100);
+    Serial.print(".");
     MODEM.noop();
   } while (MODEM.waitForResponse(1000) != 1);
   Serial.println("done.");
 
+  // SARA R4 AT Command Manual Section 5.3: +CFUN response time UP TO 3 MIN
   Serial.print("Modem ready, turn radio on in order to configure it...");
   MODEM.send("AT+CFUN=1");
-  MODEM.waitForResponse(2000);
+  do {
+    delay(100);
+    Serial.print(".");
+    MODEM.noop();
+  } while (MODEM.waitForResponse(1000) != 1);
   Serial.println("done.");
 
   Serial.print("Check attachment until CSQ RSSI indicator is less than 99...");
   String response;
   int status = 99;
-  while (status > 98 && status > 0) {
+  while (status > 31) {
     MODEM.send("AT+CSQ");
     MODEM.waitForResponse(2000, &response);
-    String sub = response.substring(6, 8);
-    status = sub.toInt(); // Will return 0 if no valid number is found
+
+    // Parse response: +CSQ: <signal_power>,<qual>
+    int delimeterIndex = response.indexOf(",");
+    if (delimeterIndex != -1) {
+      String sub = response.substring(6, delimeterIndex);
+      status = sub.toInt(); // Will return 0 if no valid number is found
+    }
     delay(1000);
   }
   Serial.println("done.");
