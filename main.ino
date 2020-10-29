@@ -155,7 +155,7 @@ uint16_t sendPacket () {
    * once the packet has been received in Telenor MIC.
    */
   char buffer[100];
-  uint32_t buf_size = snprintf(buffer, 100, "{\"tmp\":\"%.2f\",\"hum\":\"%.2f\",\"latlng\":\"59.898812,10.627212\"}", tmp, hum);
+  uint32_t buf_size = snprintf(buffer, 100, "{\"tmp\":%.2f,\"hum\":%.2f,\"latlng\":\"59.898812,10.627212\"}", tmp, hum);
 
   // Send a CoAP POST message to Telenor IoT Gateway
   uint16_t msgid = coap.send(
