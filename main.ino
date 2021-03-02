@@ -134,7 +134,7 @@ void loop() {
 bool connectNB() {
   Serial.print("Attempting to connect to the cellular network...");
   // Failed, retry
-  while (nbAccess.begin(pinnumber, gprs_apn) != NB_READY || gprsAccess.attachGPRS() != GPRS_READY) {
+  while (nbAccess.begin(pinnumber, gprs_apn, false) != NB_READY || gprsAccess.attachGPRS() != GPRS_READY) {
     Serial.print(".");
     delay(1000);
   }
