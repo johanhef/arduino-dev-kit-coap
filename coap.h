@@ -116,7 +116,7 @@ class CoapPacket {
     uint8_t *token;
     uint8_t tokenlen;
     uint8_t *payload;
-    uint8_t payloadlen;
+    uint32_t payloadlen;
     uint16_t messageid;
 
     uint8_t optionnum;
